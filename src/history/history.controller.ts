@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { CreateHistoryDto } from './dto/create-history.dto';
 import { HistoryService } from './history.service';
 
 @Controller('history')
@@ -6,8 +7,8 @@ export class HistoryController {
   constructor(private readonly historyService: HistoryService) {}
 
   @Post()
-  create() {
-    return this.historyService.create();
+  create(@Body() createHistoryDto: CreateHistoryDto) {
+    return this.historyService.create(createHistoryDto);
   }
 
   @Get()
