@@ -13,20 +13,18 @@ export class HistoryService {
     return new this.historyModel(createHistoryDto).save();
   }
 
-  getAll(): string[] {
-    return ['valor1', 'valor2'];
+  async getAll(): Promise<History[]> {
+    return this.historyModel.find().exec();
   }
 
-  //getById
-  getById(id: string): string {
-    return `El valor del id es ${id}`;
+  async getById(id: string): Promise<History> {
+    return this.historyModel.findOne({ _id: id }).exec();
   }
 
-  //update(id: number) {
-  //  return `This action updates a #${id} history`;
-  //}
-
-  //remove(id: number) {
-  //  return `This action removes a #${id} history`;
-  //}
+  async delete(id: string) {
+    const deletedCat = await this.historyModel
+      .findByIdAndRemove({ _id: id })
+      .exec();
+    return deletedCat;
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Delete } from '@nestjs/common';
 import { CreateHistoryDto } from './dto/create-history.dto';
 import { HistoryService } from './history.service';
 
@@ -7,17 +7,22 @@ export class HistoryController {
   constructor(private readonly historyService: HistoryService) {}
 
   @Post()
-  create(@Body() createHistoryDto: CreateHistoryDto) {
-    return this.historyService.create(createHistoryDto);
+  async create(@Body() createHistoryDto: CreateHistoryDto) {
+    await this.historyService.create(createHistoryDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.historyService.getAll();
   }
 
   @Get(':id')
-  findOne(@Param() params): string {
+  async findOne(@Param() params) {
     return this.historyService.getById(params.id);
+  }
+
+  @Delete(':id')
+  async delete(@Param() params) {
+    return this.historyService.delete(params.id);
   }
 }
